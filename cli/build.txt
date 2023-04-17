@@ -1,0 +1,29 @@
+// build the image
+$ docker build -t <your-name>/kafkaconn-kustosink:latest .
+
+// check that it exists
+$ docker images
+
+// push to docker hub
+$ docker push <your-name>/kafkaconn-kustosink:latest
+
+$ docker build --platform linux/arm64 -t <your-name>/kafkaconn-kustosink:latest .
+
+// push again
+$ docker push <your-name>/kafkaconn-kustosink:latest
+
+// use buildx
+$ docker buildx build --platform linux/amd64,linux/arm64 -t <your-name>/kafkaconn-kustosink:latest . --push
+
+// the above will fail
+// create new builder
+$ docker buildx create --name mybuilder --driver docker-container --bootstrap
+
+// switch to the driver
+$ docker buildx use mybuilder
+
+// now build and push
+$ docker buildx build --platform linux/amd64,linux/arm64 -t <your-name>/kafkaconn-kustosink:latest . --push
+
+
+
